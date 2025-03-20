@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaoyi.birthdayreminder.mapper.BirthdayMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_birthday(name,birthday,relation,remind_time,sex,phone,address,comment,tag,create_time,update_time,creator)
+        values (#{name},#{birthday},#{relation},#{remindTime},#{sex},#{phone},#{address},#{comment},#{tag},#{createTime},#{updateTime},#{creator})
+    </insert>
+
+    <update id="updateById">
+        update tb_user
+        <set>
+            <if test="user.name != null">
+                name = #{user.name},
+            </if>
+            <if test="user.birthday != null">
+                birthday = #{user.birthday},
+            </if>
+            <if test="user.address != null">
+                address = #{user.address},
+            </if>
+            <if test="user.avatar != null">
+                avatar = #{user.avatar},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from user
+        <where>
+            <if test="begin != null">
+                and create_time &gt; #{begin}
+            </if>
+            <if test="end != null">
+                and create_time &lt; #{end}
+            </if>
+        </where>
+    </select>
+
+</mapper>
