@@ -39,4 +39,15 @@
         </where>
     </select>
 
+    <select id="list" parameterType="string" resultType="com.xiaoyi.birthdayreminder.pojo.dto.BirthdayItemDTO">
+        SELECT
+            id,
+            name,
+            birthday
+        FROM
+            tb_birthday
+        WHERE
+            creator = #{creator}
+    </select>
+
 </mapper>

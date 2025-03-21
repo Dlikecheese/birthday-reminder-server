@@ -25,6 +25,4 @@ public class Birthday {
     private String phone;
     private String comment;
     private String creator;
-
-
 }

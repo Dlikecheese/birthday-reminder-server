@@ -3,14 +3,15 @@ package com.xiaoyi.birthdayreminder.service.impl;
 import com.xiaoyi.birthdayreminder.context.BaseContext;
 import com.xiaoyi.birthdayreminder.mapper.BirthdayMapper;
 import com.xiaoyi.birthdayreminder.pojo.dto.BirthdayDTO;
+import com.xiaoyi.birthdayreminder.pojo.dto.BirthdayItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.Birthday;
 import com.xiaoyi.birthdayreminder.service.BirthdayService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class BirthdayServiceImpl implements BirthdayService {
@@ -41,5 +42,12 @@ public class BirthdayServiceImpl implements BirthdayService {
 
         birthdayMapper.insert(birthday);
 
+    }
+
+    @Override
+    public List<BirthdayItemDTO> list() {
+        String creatorId = BaseContext.getCurrentId();
+        List<BirthdayItemDTO> birthdayList =   birthdayMapper.list(creatorId);
+        return birthdayList;
     }
 }
