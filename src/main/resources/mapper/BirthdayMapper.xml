@@ -8,20 +8,32 @@
         values (#{name},#{birthday},#{relation},#{remindTime},#{sex},#{phone},#{address},#{comment},#{tag},#{createTime},#{updateTime},#{creator})
     </insert>
 
-    <update id="updateById">
-        update tb_user
+    <update id="updateById" parameterType="com.xiaoyi.birthdayreminder.pojo.entity.Birthday">
+        update tb_birthday
         <set>
-            <if test="user.name != null">
-                name = #{user.name},
+            <if test="name != null">
+                name = #{name},
             </if>
-            <if test="user.birthday != null">
-                birthday = #{user.birthday},
+            <if test="birthday != null">
+                birthday = #{birthday},
             </if>
-            <if test="user.address != null">
-                address = #{user.address},
+            <if test="remindTime != null">
+                remind_time = #{remindTime},
             </if>
-            <if test="user.avatar != null">
-                avatar = #{user.avatar},
+            <if test="relation != null">
+                relation = #{relation},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="tag != null">
+                tag = #{tag},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="comment != null">
+                comment = #{comment},
             </if>
         </set>
         where id = #{id}

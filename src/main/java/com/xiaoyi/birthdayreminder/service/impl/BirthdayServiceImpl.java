@@ -6,6 +6,7 @@ import com.xiaoyi.birthdayreminder.pojo.dto.BirthdayDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.BirthdayItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.Birthday;
 import com.xiaoyi.birthdayreminder.service.BirthdayService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,13 +42,48 @@ public class BirthdayServiceImpl implements BirthdayService {
         birthday.setCreator(creatorId);
 
         birthdayMapper.insert(birthday);
-
     }
 
     @Override
     public List<BirthdayItemDTO> list() {
         String creatorId = BaseContext.getCurrentId();
-        List<BirthdayItemDTO> birthdayList =   birthdayMapper.list(creatorId);
-        return birthdayList;
+        return birthdayMapper.list(creatorId);
+    }
+
+    @Override
+    public BirthdayDTO getById(String id) {
+        Birthday birthday = birthdayMapper.getById(id);
+        String[] reminderTimes = birthday.getRemindTime().split(",");
+
+        BirthdayDTO birthdayDTO = new BirthdayDTO();
+        birthdayDTO.setRemindTime(reminderTimes);
+        birthdayDTO.setName(birthday.getName());
+        birthdayDTO.setBirthday(birthday.getBirthday());
+        birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
+        birthdayDTO.setSex(birthday.getSex());
+        birthdayDTO.setAddress(birthday.getAddress());
+        birthdayDTO.setPhone(birthday.getPhone());
+        birthdayDTO.setComment(birthday.getComment());
+        birthdayDTO.setTag(birthday.getTag());
+        return birthdayDTO;
+    }
+
+    @Override
+    public void updateById(BirthdayDTO birthdayDTO) {
+        Birthday birthday = new Birthday();
+        BeanUtils.copyProperties(birthdayDTO,birthday);
+
+        if (birthdayDTO.getRemindTime() != null) {
+            String reminderTimeStr = String.join(",", Arrays.asList(birthdayDTO.getRemindTime()));
+            birthday.setRemindTime(reminderTimeStr);
+        }
+        birthday.setUpdateTime(LocalDateTime.now());
+
+        birthdayMapper.updateById(birthday);
+    }
+
+    @Override
+    public void delById(String id) {
+        birthdayMapper.delById(id);
     }
 }
