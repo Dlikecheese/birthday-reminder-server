@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * 用户登录
+ * 前端提交的生日信息
  */
 @Data
 public class BirthdayDTO {

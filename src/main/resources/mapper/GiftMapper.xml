@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaoyi.birthdayreminder.mapper.GiftMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_gift(name, description, image, like_count, star_count, usage_sex, usage_age, create_time,
+                            update_time, creator)
+        values (#{name}, #{description}, #{image}, #{likeCount}, #{starCount}, #{usageSex}, #{usageAge}, #{createTime},
+                #{updateTime}, #{creator})
+    </insert>
+
+    <insert id="like" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_gift_favorite(gift_id, user_id,create_time)
+        values (#{giftId}, #{userId}, #{createTime})
+    </insert>
+
+    <insert id="collect" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_gift_collect(gift_id, user_id,create_time)
+        values (#{giftId}, #{userId}, #{createTime})
+    </insert>
+
+    <select id="count" resultType="Long">
+        select count(*) from tb_gift
+        <where>
+            <if test="isMine">
+                creator = #{creatorId}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByCollect" resultType="com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO">
+        SELECT
+            g.id,
+            g.name,
+            g.image,
+            g.creator AS creator_id,
+            u.name AS creator_name,
+            u.avatar AS creator_avatar,
+            IFNULL(fav_counts.count, 0) AS favorite_count,
+            IFNULL(collect_counts.count, 0) AS collect_count,
+            EXISTS (
+                SELECT 1 FROM tb_gift_favorite
+                WHERE gift_id = g.id AND  user_id = #{creatorId}
+            ) AS is_favorited_by_user,
+            EXISTS (
+                SELECT 1 FROM tb_gift_collect
+                WHERE gift_id = g.id AND  user_id = #{creatorId}
+            ) AS is_collected_by_user
+        FROM
+            (SELECT gift_id FROM tb_gift_collect WHERE user_id = #{creatorId}) as user_fav
+       JOIN
+            tb_gift g ON user_fav.gift_id = g.id
+                JOIN
+            tb_user u ON g.creator = u.id
+                LEFT JOIN (
+                SELECT gift_id, COUNT(*) AS count
+                FROM tb_gift_favorite
+                GROUP BY gift_id
+            ) fav_counts ON g.id = fav_counts.gift_id
+                LEFT JOIN (
+                SELECT gift_id, COUNT(*) AS count
+                FROM tb_gift_collect
+                GROUP BY gift_id
+            ) collect_counts ON g.id = collect_counts.gift_id
+        ORDER BY
+            (SELECT MAX(create_time) FROM tb_gift_collect
+             WHERE gift_id = g.id AND user_id = #{creatorId}) DESC
+            limit #{start},#{pageSize}
+    </select>
+    <select id="list" resultType="com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO">
+        SELECT
+        g.id,
+        g.name,
+        g.description,
+        g.image,
+        g.creator,
+        user.name AS creator_name,
+        user.avatar AS creator_avatar,
+        IFNULL(fav_counts.favorite_count, 0) AS favorite_count,
+        IFNULL(collect_counts.collect_count, 0) AS collect_count,
+        EXISTS (
+        SELECT 1 FROM tb_gift_favorite
+        WHERE gift_id = g.id AND  user_id = #{creatorId}
+        ) AS is_favorited_by_user,
+        EXISTS (
+        SELECT 1 FROM tb_gift_collect
+        WHERE gift_id = g.id AND  user_id = #{creatorId}
+        ) AS is_collected_by_user
+        FROM
+        tb_gift g
+        JOIN
+        tb_user user ON g.creator = user.id
+        LEFT JOIN (
+        SELECT gift_id, COUNT(*) AS favorite_count
+        FROM tb_gift_favorite
+        GROUP BY gift_id
+        ) fav_counts ON g.id = fav_counts.gift_id
+        LEFT JOIN (
+        SELECT gift_id, COUNT(*) AS collect_count
+        FROM tb_gift_collect
+        GROUP BY gift_id
+        ) collect_counts ON g.id = collect_counts.gift_id
+        <where>
+            <if test="isMine">
+                creator = #{creatorId}
+            </if>
+        </where>
+        ORDER BY
+        favorite_count DESC
+        limit #{start},#{pageSize}
+    </select>
+</mapper>

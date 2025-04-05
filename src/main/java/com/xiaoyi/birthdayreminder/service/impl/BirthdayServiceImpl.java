@@ -53,13 +53,19 @@ public class BirthdayServiceImpl implements BirthdayService {
     @Override
     public BirthdayDTO getById(String id) {
         Birthday birthday = birthdayMapper.getById(id);
-        String[] reminderTimes = birthday.getRemindTime().split(",");
 
         BirthdayDTO birthdayDTO = new BirthdayDTO();
-        birthdayDTO.setRemindTime(reminderTimes);
         birthdayDTO.setName(birthday.getName());
         birthdayDTO.setBirthday(birthday.getBirthday());
-        birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
+        if(!birthday.getRemindTime().isEmpty()){
+            String[] reminderTimes = birthday.getRemindTime().split(",");
+            birthdayDTO.setRemindTime(reminderTimes);
+        }else{
+            birthdayDTO.setRemindTime(new String[0]);
+        }
+        if(birthdayDTO.getRelation()!=null){
+            birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
+        }
         birthdayDTO.setSex(birthday.getSex());
         birthdayDTO.setAddress(birthday.getAddress());
         birthdayDTO.setPhone(birthday.getPhone());
