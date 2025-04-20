@@ -8,6 +8,11 @@
         values (#{id}, #{openid}, #{name},  #{avatar}, #{createTime})
     </insert>
 
+    <insert id="feedback" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_feedback (user, content, create_time)
+        values (#{user}, #{content}, #{createTime})
+    </insert>
+
     <update id="updateById">
         update tb_user
         <set>

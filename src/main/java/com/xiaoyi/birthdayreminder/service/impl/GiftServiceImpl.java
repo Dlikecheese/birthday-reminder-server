@@ -2,6 +2,7 @@ package com.xiaoyi.birthdayreminder.service.impl;
 
 import com.xiaoyi.birthdayreminder.context.BaseContext;
 import com.xiaoyi.birthdayreminder.mapper.GiftMapper;
+import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftLikeDTO;
@@ -84,5 +85,13 @@ public class GiftServiceImpl implements GiftService {
         giftMapper.deleteCollectId(id,creatorId);
     }
 
+    @Override
+    public GiftItemDTO detail(Integer id) {
+        return giftMapper.detail(id);
+    }
 
+    @Override
+    public void delete(Integer id) {
+        giftMapper.delete(id);
+    }
 }

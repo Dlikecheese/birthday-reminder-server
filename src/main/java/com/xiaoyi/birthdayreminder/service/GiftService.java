@@ -1,6 +1,7 @@
 package com.xiaoyi.birthdayreminder.service;
 
 
+import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.PageBean;
@@ -19,4 +20,8 @@ public interface GiftService {
     void cancelLike(Integer id);
 
     void cancelCollect(Integer id);
+
+    GiftItemDTO detail(Integer id);
+
+    void delete(Integer id);
 }

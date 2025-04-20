@@ -3,8 +3,10 @@ package com.xiaoyi.birthdayreminder.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xiaoyi.birthdayreminder.constant.MessageConstant;
+import com.xiaoyi.birthdayreminder.context.BaseContext;
 import com.xiaoyi.birthdayreminder.exception.LoginFailedException;
 import com.xiaoyi.birthdayreminder.mapper.UserMapper;
+import com.xiaoyi.birthdayreminder.pojo.dto.FeedbackDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.UserLoginDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.User;
 import com.xiaoyi.birthdayreminder.properties.WeChatProperties;
@@ -75,5 +77,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateById(String id, User user) {
         userMapper.updateById(id,user);
+    }
+
+    @Override
+    public void feedback(FeedbackDTO feedbackDTO) {
+        feedbackDTO.setUser(BaseContext.getCurrentId());
+        feedbackDTO.setCreateTime(LocalDateTime.now());
+        userMapper.feedback(feedbackDTO);
     }
 }

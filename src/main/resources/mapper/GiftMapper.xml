@@ -72,7 +72,6 @@
         SELECT
         g.id,
         g.name,
-        g.description,
         g.image,
         g.creator,
         user.name AS creator_name,

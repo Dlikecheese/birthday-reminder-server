@@ -1,5 +1,6 @@
 package com.xiaoyi.birthdayreminder.mapper;
 
+import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftLikeDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.Gift;
@@ -33,4 +34,9 @@ public interface GiftMapper {
     void deleteCollectId(Integer id,String creator);
 
 
+    @Select("select * from tb_gift where id = #{id}")
+    GiftItemDTO detail(Integer id);
+
+    @Delete("delete from tb_gift where id=#{id}")
+    void delete(Integer id);
 }

@@ -3,6 +3,7 @@ package com.xiaoyi.birthdayreminder.controller;
 import com.xiaoyi.birthdayreminder.constant.JwtClaimsConstant;
 import com.xiaoyi.birthdayreminder.context.BaseContext;
 import com.xiaoyi.birthdayreminder.pojo.Result;
+import com.xiaoyi.birthdayreminder.pojo.dto.FeedbackDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.UserLoginDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.User;
 import com.xiaoyi.birthdayreminder.pojo.vo.UserLoginVO;
@@ -57,6 +58,12 @@ public class UserController {
     @PutMapping("/{id}")
     public Result<Void> update(@PathVariable String id, @RequestBody User user){
         userService.updateById(id,user);
+        return Result.success();
+    }
+
+    @PostMapping("/feedback")
+    public Result<Void> feedback(@RequestBody FeedbackDTO feedbackDTO){
+        userService.feedback(feedbackDTO);
         return Result.success();
     }
 }

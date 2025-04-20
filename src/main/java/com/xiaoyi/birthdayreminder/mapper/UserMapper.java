@@ -1,10 +1,8 @@
 package com.xiaoyi.birthdayreminder.mapper;
 
+import com.xiaoyi.birthdayreminder.pojo.dto.FeedbackDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -18,4 +16,6 @@ public interface UserMapper {
     void insert(User user);
 
     void updateById(@Param("id") String id,@Param("user") User user);
+
+    void feedback(FeedbackDTO feedbackDTO);
 }
