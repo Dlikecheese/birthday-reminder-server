@@ -4,7 +4,9 @@ import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.PageBean;
+import com.xiaoyi.birthdayreminder.service.FileService;
 import com.xiaoyi.birthdayreminder.service.GiftService;
+import com.xiaoyi.birthdayreminder.utils.AliOssUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,24 @@ public class GiftController {
     @Autowired
     private GiftService giftService;
 
+    @Autowired
+    private AliOssUtil aliOssUtil;
+
+    @Autowired
+    private FileService fileService;
+
     @PostMapping
     public Result<Void> add(@RequestBody GiftDTO giftDTO){
         log.info("添加礼物");
-        giftService.add(giftDTO);
-
+        try{
+            giftService.add(giftDTO);
+        }catch(Exception e){
+            if(giftDTO.getImage() != null){
+                String objectName=  aliOssUtil.getObjectName(giftDTO.getImage());
+                aliOssUtil.delete(objectName);
+                fileService.deleteByUrl(giftDTO.getImage());
+            }
+        }
         return Result.success();
     }
 
@@ -67,6 +82,12 @@ public class GiftController {
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id){
         giftService.delete(id);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}")
+    public Result<Void> update(@RequestBody GiftDTO giftDTO){
+        giftService.update(giftDTO);
         return Result.success();
     }
 

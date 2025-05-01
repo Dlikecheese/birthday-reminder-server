@@ -6,6 +6,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 # MyBatis??
 mybatis:
@@ -27,5 +31,15 @@ birthday:
   wechat:
     appid:
     secret:
+
+  alioss:
+    endpoint:
+    access-key-id:
+    access-key-secret:
+    bucket-name:
+
+server:
+  port: 9898
+  max-http-request-header-size: 1048576
 
 

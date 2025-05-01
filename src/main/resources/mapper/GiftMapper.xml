@@ -4,9 +4,9 @@
 <mapper namespace="com.xiaoyi.birthdayreminder.mapper.GiftMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into tb_gift(name, description, image, like_count, star_count, usage_sex, usage_age, create_time,
+        insert into tb_gift(name, description, image,  usage_sex, usage_age, create_time,
                             update_time, creator)
-        values (#{name}, #{description}, #{image}, #{likeCount}, #{starCount}, #{usageSex}, #{usageAge}, #{createTime},
+        values (#{name}, #{description}, #{image},  #{usageSex}, #{usageAge}, #{createTime},
                 #{updateTime}, #{creator})
     </insert>
 
@@ -19,6 +19,24 @@
         insert into tb_gift_collect(gift_id, user_id,create_time)
         values (#{giftId}, #{userId}, #{createTime})
     </insert>
+    <update id="update"  parameterType="com.xiaoyi.birthdayreminder.pojo.entity.Gift">
+        update tb_gift
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="count" resultType="Long">
         select count(*) from tb_gift

@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class GiftDTO {
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private String image;

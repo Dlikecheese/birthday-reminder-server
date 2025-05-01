@@ -1,5 +1,6 @@
 package com.xiaoyi.birthdayreminder.pojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,15 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gift {
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private String image;
     private String creator;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime updateTime;
-    private Integer starCount;
-    private Integer likeCount;
     private String usageSex;
     private String usageAge;
     private String tag;

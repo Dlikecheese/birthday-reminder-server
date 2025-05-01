@@ -10,6 +10,7 @@ public class GiftItemDTO {
     private String description;
     private String image;
     private String creatorName;
+    private String creator;
     private Integer favoriteCount;
     private Integer collectCount;
     private Boolean isMine;

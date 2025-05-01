@@ -1,12 +1,9 @@
 package com.xiaoyi.birthdayreminder.service;
 
 
-import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.PageBean;
-
-import java.util.List;
 
 public interface GiftService {
     void add(GiftDTO giftDTO);
@@ -24,4 +21,6 @@ public interface GiftService {
     GiftItemDTO detail(Integer id);
 
     void delete(Integer id);
+
+    void update(GiftDTO giftDTO);
 }
