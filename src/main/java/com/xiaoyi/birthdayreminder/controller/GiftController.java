@@ -2,7 +2,6 @@ package com.xiaoyi.birthdayreminder.controller;
 
 import com.xiaoyi.birthdayreminder.pojo.Result;
 import com.xiaoyi.birthdayreminder.pojo.dto.GiftDTO;
-import com.xiaoyi.birthdayreminder.pojo.dto.GiftItemDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.PageBean;
 import com.xiaoyi.birthdayreminder.service.FileService;
 import com.xiaoyi.birthdayreminder.service.GiftService;
@@ -75,7 +74,7 @@ public class GiftController {
     }
 
     @GetMapping("/detail/{id}")
-    public Result<GiftItemDTO> detail(@PathVariable Integer id){
+    public Result<GiftDTO> detail(@PathVariable Integer id){
         return Result.success( giftService.detail(id));
     }
 

@@ -34,6 +34,12 @@
             <if test="updateTime != null">
                 update_time = #{updateTime},
             </if>
+            <if test="usageAge != null">
+                usage_age = #{usageAge},
+            </if>
+            <if test="usageSex != null">
+                usage_sex = #{usageSex},
+            </if>
         </set>
         where id = #{id}
     </update>

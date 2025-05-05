@@ -12,5 +12,7 @@ public class GiftDTO {
     private String description;
     private String image;
     private String usageSex;
-    private String usageAge;
+    private String[] usageAge;
+    private Boolean isMine;
+    private String creator;
 }

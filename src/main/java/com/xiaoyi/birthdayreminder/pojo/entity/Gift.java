@@ -22,5 +22,4 @@ public class Gift {
     private LocalDateTime updateTime;
     private String usageSex;
     private String usageAge;
-    private String tag;
 }

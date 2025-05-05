@@ -19,4 +19,6 @@ public class GiftItemDTO {
     // 是否喜欢
     private Boolean isCollectedByUser;
     private String creatorAvatar;
+    private String usageAge;
+    private String usageSex;
 }

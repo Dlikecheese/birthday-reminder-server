@@ -39,6 +39,9 @@ public class GiftServiceImpl implements GiftService {
         String creator = BaseContext.getCurrentId();
         gift.setCreator(creator);
 
+        String usageAge = String.join(",",giftDTO.getUsageAge());
+        gift.setUsageAge(usageAge);
+
         giftMapper.insert(gift);
     }
 
@@ -90,18 +93,25 @@ public class GiftServiceImpl implements GiftService {
     }
 
     @Override
-    public GiftItemDTO detail(Integer id) {
+    public GiftDTO detail(Integer id) {
         GiftItemDTO giftItemDTO =  giftMapper.detail(id);
+        GiftDTO giftDTO = new GiftDTO();
+
+        BeanUtils.copyProperties(giftItemDTO,giftDTO);
+
+        String[] usageAge = giftItemDTO.getUsageAge().split(",");
+        giftDTO.setUsageAge(usageAge);
+
         Boolean isMine = giftItemDTO.getCreator().equals(BaseContext.getCurrentId());
-        giftItemDTO.setIsMine(isMine);
-        return giftItemDTO;
+        giftDTO.setIsMine(isMine);
+        return giftDTO;
     }
 
     @Override
     public void delete(Integer id) {
-        GiftItemDTO giftItemDTO = this.detail(id);
-        if(giftItemDTO.getCreator().equals(BaseContext.getCurrentId())){
-            String image=giftItemDTO.getImage();
+        GiftDTO giftDTO = this.detail(id);
+        if(giftDTO.getCreator().equals(BaseContext.getCurrentId())){
+            String image=giftDTO.getImage();
             String objectName=  aliOssUtil.getObjectName(image);
             aliOssUtil.delete(objectName);
             fileService.deleteByUrl(image);
@@ -112,14 +122,18 @@ public class GiftServiceImpl implements GiftService {
 
     @Override
     public void update(GiftDTO giftDTO) {
-        GiftItemDTO giftItemDTO = this.detail(giftDTO.getId());
         Gift gift = new Gift();
-        gift.setId(giftItemDTO.getId());
         gift.setName(giftDTO.getName());
         gift.setDescription(giftDTO.getDescription());
         gift.setImage(giftDTO.getImage());
+        gift.setUsageSex(giftDTO.getUsageSex());
 
-        if(giftItemDTO.getCreator().equals(BaseContext.getCurrentId())){
+        String usageAge = String.join(",",giftDTO.getUsageAge());
+        gift.setUsageAge(usageAge);
+
+        GiftDTO giftInfo = this.detail(giftDTO.getId());
+        gift.setId(giftInfo.getId());
+        if(giftInfo.getCreator().equals(BaseContext.getCurrentId())){
             gift.setUpdateTime(LocalDateTime.now());
             giftMapper.update(gift);
         }
