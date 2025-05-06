@@ -1,7 +1,10 @@
 package com.xiaoyi.birthdayreminder.pojo.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class GiftItemDTO {
@@ -21,4 +24,8 @@ public class GiftItemDTO {
     private String creatorAvatar;
     private String usageAge;
     private String usageSex;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime updateTime;
 }
