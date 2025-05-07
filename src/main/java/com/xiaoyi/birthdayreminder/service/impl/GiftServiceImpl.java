@@ -112,11 +112,15 @@ public class GiftServiceImpl implements GiftService {
         GiftDTO giftDTO = this.detail(id);
         if(giftDTO.getCreator().equals(BaseContext.getCurrentId())){
             String image=giftDTO.getImage();
-            String objectName=  aliOssUtil.getObjectName(image);
-            aliOssUtil.delete(objectName);
-            fileService.deleteByUrl(image);
+            if(image !=null){
+                String objectName=  aliOssUtil.getObjectName(image);
+                aliOssUtil.delete(objectName);
+                fileService.deleteByUrl(image);
+            }
 
             giftMapper.delete(id);
+            giftMapper.deleteCollectById(id);
+            giftMapper.deleteLikeById(id);
         }
     }
 

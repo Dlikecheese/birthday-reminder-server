@@ -40,4 +40,12 @@ public interface GiftMapper {
     void delete(Integer id);
 
     void update(Gift gift);
+
+    // 删除收藏表里giftId为id的记录
+    @Delete("delete from tb_gift_collect where id =#{id}")
+    void deleteCollectById(Integer id);
+
+    // 删除喜爱表里giftId为id的记录
+    @Delete("delete from tb_gift_favorite where id =#{id}")
+    void deleteLikeById(Integer id);
 }

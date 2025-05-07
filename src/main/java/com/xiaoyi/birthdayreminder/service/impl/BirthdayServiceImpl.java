@@ -65,7 +65,7 @@ public class BirthdayServiceImpl implements BirthdayService {
         }else{
             birthdayDTO.setRemindTime(new String[0]);
         }
-        if(birthdayDTO.getRelation()!=null){
+        if(birthday.getRelation()!=null){
             birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
         }
         birthdayDTO.setSex(birthday.getSex());
