@@ -85,4 +85,10 @@ public class UserServiceImpl implements UserService {
         feedbackDTO.setCreateTime(LocalDateTime.now());
         userMapper.feedback(feedbackDTO);
     }
+
+    @Override
+    public User detail() {
+        String id = BaseContext.getCurrentId();
+        return userMapper.detail(id);
+    }
 }

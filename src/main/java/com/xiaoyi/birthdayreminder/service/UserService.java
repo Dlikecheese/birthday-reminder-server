@@ -10,4 +10,6 @@ public interface UserService {
     void updateById(String id, User user);
 
     void feedback(FeedbackDTO feedbackDTO);
+
+    User detail();
 }

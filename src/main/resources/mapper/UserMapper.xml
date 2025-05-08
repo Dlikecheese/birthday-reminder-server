@@ -22,8 +22,8 @@
             <if test="user.birthday != null">
                 birthday = #{user.birthday},
             </if>
-            <if test="user.address != null">
-                address = #{user.address},
+            <if test="user.sex != null">
+                sex = #{user.sex},
             </if>
             <if test="user.avatar != null">
                 avatar = #{user.avatar},

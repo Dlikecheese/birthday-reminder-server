@@ -1,12 +1,10 @@
 package com.xiaoyi.birthdayreminder.pojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,7 +22,7 @@ public class User {
     private String name;
 
     // 生日
-    private LocalDate birthday;
+    private String birthday;
 
     // 地址
     private String address;
@@ -32,12 +30,13 @@ public class User {
     //手机号
     private String phone;
 
-    //性别 0 女 1 男
+    //性别
     private String sex;
 
     //头像
     private String avatar;
 
     //注册时间
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime createTime;
 }

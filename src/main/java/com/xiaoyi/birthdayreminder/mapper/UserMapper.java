@@ -18,4 +18,7 @@ public interface UserMapper {
     void updateById(@Param("id") String id,@Param("user") User user);
 
     void feedback(FeedbackDTO feedbackDTO);
+
+    @Select("select * from tb_user where openid = #{openid}")
+    User detail(String openid);
 }

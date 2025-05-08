@@ -66,4 +66,10 @@ public class UserController {
         userService.feedback(feedbackDTO);
         return Result.success();
     }
+
+    @GetMapping("/detail")
+    public Result<User> getDetail(){
+       User userInfo= userService.detail();
+       return Result.success(userInfo);
+    }
 }
