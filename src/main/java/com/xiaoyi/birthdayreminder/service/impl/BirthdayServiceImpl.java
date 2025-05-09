@@ -28,10 +28,9 @@ public class BirthdayServiceImpl implements BirthdayService {
         birthday.setBirthday(birthdayDTO.getBirthday());
         birthday.setRelation(birthdayDTO.getRelation());
         birthday.setSex(birthdayDTO.getSex());
-        birthday.setAddress(birthdayDTO.getAddress());
-        birthday.setPhone(birthdayDTO.getPhone());
         birthday.setComment(birthdayDTO.getComment());
         birthday.setTag(birthdayDTO.getTag());
+        birthday.setBirthdayType(birthdayDTO.getBirthdayType());
 
         if (birthdayDTO.getRemindTime() != null) {
             String reminderTimeStr = String.join(",", Arrays.asList(birthdayDTO.getRemindTime()));
@@ -59,6 +58,7 @@ public class BirthdayServiceImpl implements BirthdayService {
         BirthdayDTO birthdayDTO = new BirthdayDTO();
         birthdayDTO.setName(birthday.getName());
         birthdayDTO.setBirthday(birthday.getBirthday());
+        birthdayDTO.setBirthdayType(birthday.getBirthdayType());
         if(!birthday.getRemindTime().isEmpty()){
             String[] reminderTimes = birthday.getRemindTime().split(",");
             birthdayDTO.setRemindTime(reminderTimes);
@@ -69,8 +69,6 @@ public class BirthdayServiceImpl implements BirthdayService {
             birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
         }
         birthdayDTO.setSex(birthday.getSex());
-        birthdayDTO.setAddress(birthday.getAddress());
-        birthdayDTO.setPhone(birthday.getPhone());
         birthdayDTO.setComment(birthday.getComment());
         birthdayDTO.setTag(birthday.getTag());
         return birthdayDTO;

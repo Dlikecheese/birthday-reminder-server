@@ -1,9 +1,7 @@
 package com.xiaoyi.birthdayreminder.pojo.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xiaoyi.birthdayreminder.Enum.BirthdayType;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 /**
  * 列表页显示的生日一行的信息
@@ -12,6 +10,6 @@ import java.time.LocalDate;
 public class BirthdayItemDTO {
     private String id;
     private String name;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthday;
+    private String birthday;
+    private BirthdayType birthdayType;
 }
