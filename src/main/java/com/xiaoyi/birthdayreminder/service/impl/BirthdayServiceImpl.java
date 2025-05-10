@@ -20,7 +20,6 @@ public class BirthdayServiceImpl implements BirthdayService {
     private BirthdayMapper birthdayMapper;
 
 
-
     @Override
     public void add(BirthdayDTO birthdayDTO) {
         Birthday birthday = new Birthday();
@@ -46,6 +45,11 @@ public class BirthdayServiceImpl implements BirthdayService {
     }
 
     @Override
+    public List<Birthday> allList() {
+        return birthdayMapper.allList();
+    }
+
+    @Override
     public List<BirthdayItemDTO> list() {
         String creatorId = BaseContext.getCurrentId();
         return birthdayMapper.list(creatorId);
@@ -59,13 +63,13 @@ public class BirthdayServiceImpl implements BirthdayService {
         birthdayDTO.setName(birthday.getName());
         birthdayDTO.setBirthday(birthday.getBirthday());
         birthdayDTO.setBirthdayType(birthday.getBirthdayType());
-        if(!birthday.getRemindTime().isEmpty()){
+        if (!birthday.getRemindTime().isEmpty()) {
             String[] reminderTimes = birthday.getRemindTime().split(",");
             birthdayDTO.setRemindTime(reminderTimes);
-        }else{
+        } else {
             birthdayDTO.setRemindTime(new String[0]);
         }
-        if(birthday.getRelation()!=null){
+        if (birthday.getRelation() != null) {
             birthdayDTO.setRelation(String.valueOf(birthday.getRelation()));
         }
         birthdayDTO.setSex(birthday.getSex());
@@ -77,7 +81,7 @@ public class BirthdayServiceImpl implements BirthdayService {
     @Override
     public void updateById(BirthdayDTO birthdayDTO) {
         Birthday birthday = new Birthday();
-        BeanUtils.copyProperties(birthdayDTO,birthday);
+        BeanUtils.copyProperties(birthdayDTO, birthday);
 
         if (birthdayDTO.getRemindTime() != null) {
             String reminderTimeStr = String.join(",", Arrays.asList(birthdayDTO.getRemindTime()));

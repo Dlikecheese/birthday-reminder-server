@@ -12,11 +12,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserLoginVO implements Serializable {
-
     private String id;
     private String openid;
     private String token;
     private String name;
     private String avatar;
-
 }

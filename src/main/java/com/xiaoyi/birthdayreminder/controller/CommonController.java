@@ -29,30 +29,30 @@ public class CommonController {
     private FileService fileService;
 
     @PostMapping("/upload")
-    public Result<String> upload(MultipartFile file){
-        log.info("文件上传:{}",file);
+    public Result<String> upload(MultipartFile file) {
+        log.info("文件上传:{}", file);
 
         try {
             String originalFileName = file.getOriginalFilename();
-          String extension=  originalFileName.substring(originalFileName.lastIndexOf("."));
-            String objectName = UUID.randomUUID()+extension;
+            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+            String objectName = UUID.randomUUID() + extension;
 
-          String filePath =  aliOssUtil.upload(file.getBytes(),objectName);
-            File uploadFile= new File();
+            String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+            File uploadFile = new File();
             uploadFile.setCreateTime(LocalDateTime.now());
             uploadFile.setUserId(BaseContext.getCurrentId());
             uploadFile.setImgUrl(filePath);
             fileService.insert(uploadFile);
 
-          return Result.success(filePath);
+            return Result.success(filePath);
         } catch (IOException e) {
-            log.error("文件上传失败：",e);
+            log.error("文件上传失败：", e);
         }
         return null;
     }
 
     @GetMapping("/test")
-    public Result<String> test(){
+    public Result<String> test() {
         log.info("test");
         return Result.success("测试成功");
     }
