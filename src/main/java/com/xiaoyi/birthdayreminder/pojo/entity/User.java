@@ -1,10 +1,12 @@
 package com.xiaoyi.birthdayreminder.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xiaoyi.birthdayreminder.Enum.BirthdayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -23,6 +25,8 @@ public class User {
 
     // 生日
     private String birthday;
+
+    private BirthdayType birthdayType;
 
     // 地址
     private String address;
