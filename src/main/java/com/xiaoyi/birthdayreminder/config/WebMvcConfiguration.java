@@ -20,6 +20,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 注册自定义拦截器
+     *
      * @param registry
      */
     protected void addInterceptors(InterceptorRegistry registry) {

@@ -3,7 +3,6 @@ package com.xiaoyi.birthdayreminder.controller;
 import com.xiaoyi.birthdayreminder.constant.JwtClaimsConstant;
 import com.xiaoyi.birthdayreminder.context.BaseContext;
 import com.xiaoyi.birthdayreminder.pojo.Result;
-import com.xiaoyi.birthdayreminder.pojo.dto.FeedbackDTO;
 import com.xiaoyi.birthdayreminder.pojo.dto.UserLoginDTO;
 import com.xiaoyi.birthdayreminder.pojo.entity.User;
 import com.xiaoyi.birthdayreminder.pojo.vo.UserLoginVO;
@@ -29,47 +28,42 @@ public class UserController {
     private JwtProperties jwtProperties;
 
     @PostMapping("/login")
-    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
+    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("微信用户登录");
         User user = userService.wxLogin(userLoginDTO);
 
 //        jwt令牌
-        Map<String,Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.USER_ID,user.getId());
-       String token =  JwtUtil.createJWT(jwtProperties.getSecretKey(),jwtProperties.getTtl(),claims);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.USER_ID, user.getId());
+        String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
 
 
-     UserLoginVO userLoginVO =   UserLoginVO.builder()
-               .id(user.getId())
-               .openid(user.getOpenid())
-               .token(token)
+        UserLoginVO userLoginVO = UserLoginVO.builder()
+                .id(user.getId())
+                .openid(user.getOpenid())
+                .token(token)
                 .name(user.getName())
                 .avatar(user.getAvatar())
-               .build();
+                .build();
         return Result.success(userLoginVO);
     }
 
     @GetMapping("/logout")
-    public Result<Void> logout(){
+    public Result<Void> logout() {
         BaseContext.removeCurrentId();
         return Result.success();
     }
 
     @PutMapping("/{id}")
-    public Result<Void> update(@PathVariable String id, @RequestBody User user){
-        userService.updateById(id,user);
+    public Result<Void> update(@PathVariable String id, @RequestBody User user) {
+        userService.updateById(id, user);
         return Result.success();
     }
 
-    @PostMapping("/feedback")
-    public Result<Void> feedback(@RequestBody FeedbackDTO feedbackDTO){
-        userService.feedback(feedbackDTO);
-        return Result.success();
-    }
 
     @GetMapping("/detail")
-    public Result<User> getDetail(){
-       User userInfo= userService.detail();
-       return Result.success(userInfo);
+    public Result<User> getDetail() {
+        User userInfo = userService.detail();
+        return Result.success(userInfo);
     }
 }
