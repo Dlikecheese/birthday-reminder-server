@@ -49,14 +49,13 @@ public class CommonUtil {
         birthdayList.forEach((birthday) -> {
             String solarBirthday = birthday.getBirthday();
             if (birthday.getBirthdayType().equals(BirthdayType.LUNAR)) {
-                solarBirthday = CommonUtil.lunar2Solar(Year.now().getValue() + getMonthDay((solarBirthday)));
+                solarBirthday = CommonUtil.lunar2Solar(birthdayInThisYear(solarBirthday));
             }
 
             if (getMonthDay(todayStr).equals(getMonthDay((solarBirthday)))) {
                 remindBirthdayList.add(birthday);
                 return;
             }
-
 
             LocalDate givenDate = LocalDate.parse(solarBirthday, DateTimeFormatter.ISO_LOCAL_DATE);
             String[] remindTimes = birthday.getRemindTime().split(",");
@@ -91,5 +90,14 @@ public class CommonUtil {
      */
     public static String getMonthDay(String date) {
         return date.substring(date.indexOf("-"));
+    }
+
+    /**
+     * 获取月日信息
+     *
+     * @param date 格式为yyyy-MM-dd
+     */
+    public static String birthdayInThisYear(String date) {
+        return Year.now().getValue() + getMonthDay((date));
     }
 }
