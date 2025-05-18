@@ -59,10 +59,10 @@ public class WxSubscribeServiceImpl implements WxSubscribeService {
         }
 
         long daysDiff = ChronoUnit.DAYS.between(parseDate(solarBirthdayInThisYear), LocalDate.now());
-        String dayDiffStr = daysDiff == 0 ? "今天" : (daysDiff + "天后");
+        String dayDiffStr = daysDiff <= 0 ? "今天" : (daysDiff + "天后");
         data.put("thing2", formatParam(dayDiffStr));
-        String dateStr = birthday.getBirthday() + " (" + (birthday.getBirthdayType().equals(BirthdayType.LUNAR) ?
-                "农历" : "公历") + ") ";
+        String dateStr = birthday.getBirthdayType().equals(BirthdayType.LUNAR) ?
+                CommonUtil.lunarBirthdayToText(birthday.getBirthday()) : CommonUtil.getMonthDay(birthday.getBirthday());
         data.put("thing6", formatParam(dateStr));
         data.put("thing5", formatParam("别忘了送上生日祝福哦"));
         map.put("data", data);

@@ -3,6 +3,8 @@ package com.xiaoyi.birthdayreminder.utils;
 import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.date.DateUtil;
 import com.xiaoyi.birthdayreminder.Enum.BirthdayType;
+import com.xiaoyi.birthdayreminder.Enum.LunarDay;
+import com.xiaoyi.birthdayreminder.Enum.LunarMonth;
 import com.xiaoyi.birthdayreminder.Enum.RemindTime;
 import com.xiaoyi.birthdayreminder.pojo.entity.Birthday;
 
@@ -89,7 +91,7 @@ public class CommonUtil {
      * @param date 格式为yyyy-MM-dd
      */
     public static String getMonthDay(String date) {
-        return date.substring(date.indexOf("-"));
+        return date.substring(date.indexOf("-") + 1);
     }
 
     /**
@@ -98,6 +100,18 @@ public class CommonUtil {
      * @param date 格式为yyyy-MM-dd
      */
     public static String birthdayInThisYear(String date) {
-        return Year.now().getValue() + getMonthDay((date));
+        return Year.now().getValue() + "-" + getMonthDay((date));
+    }
+
+    /**
+     * 获得农历生日描述
+     *
+     * @param birthday yyyy-MM-dd
+     */
+    public static String lunarBirthdayToText(String birthday) {
+        String[] date = birthday.split("-");
+        String month = date[1];
+        String day = date[2];
+        return "农历" + LunarMonth.getValueToDescMap().get(month) + LunarDay.getValueToDescMap().get(day);
     }
 }
