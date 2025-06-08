@@ -31,7 +31,7 @@ public class BirthdayServiceImpl implements BirthdayService {
         birthday.setTag(birthdayDTO.getTag());
         birthday.setBirthdayType(birthdayDTO.getBirthdayType());
 
-        if (birthdayDTO.getRemindTime() != null) {
+        if (birthdayDTO.getRemindTime() != null && birthdayDTO.getRemindTime().length != 0) {
             String reminderTimeStr = String.join(",", Arrays.asList(birthdayDTO.getRemindTime()));
             birthday.setRemindTime(reminderTimeStr);
         }
@@ -63,7 +63,7 @@ public class BirthdayServiceImpl implements BirthdayService {
         birthdayDTO.setName(birthday.getName());
         birthdayDTO.setBirthday(birthday.getBirthday());
         birthdayDTO.setBirthdayType(birthday.getBirthdayType());
-        if (!birthday.getRemindTime().isEmpty()) {
+        if (birthday.getRemindTime() != null && !birthday.getRemindTime().isEmpty()) {
             String[] reminderTimes = birthday.getRemindTime().split(",");
             birthdayDTO.setRemindTime(reminderTimes);
         } else {
@@ -83,9 +83,11 @@ public class BirthdayServiceImpl implements BirthdayService {
         Birthday birthday = new Birthday();
         BeanUtils.copyProperties(birthdayDTO, birthday);
 
-        if (birthdayDTO.getRemindTime() != null) {
+        if (birthdayDTO.getRemindTime() != null && birthdayDTO.getRemindTime().length != 0) {
             String reminderTimeStr = String.join(",", Arrays.asList(birthdayDTO.getRemindTime()));
             birthday.setRemindTime(reminderTimeStr);
+        } else {
+            birthday.setRemindTime("");
         }
         birthday.setUpdateTime(LocalDateTime.now());
 

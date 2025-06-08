@@ -54,15 +54,21 @@ public class CommonUtil {
                 solarBirthday = CommonUtil.lunar2Solar(birthdayInThisYear(solarBirthday));
             }
 
+            LocalDate givenDate = LocalDate.parse(solarBirthday, DateTimeFormatter.ISO_LOCAL_DATE);
+            if (birthday.getRemindTime() == null || birthday.getRemindTime().isEmpty()) {
+                return;
+            }
+            String[] remindTimes = birthday.getRemindTime().split(",");
+
             if (getMonthDay(todayStr).equals(getMonthDay((solarBirthday)))) {
                 remindBirthdayList.add(birthday);
                 return;
             }
 
-            LocalDate givenDate = LocalDate.parse(solarBirthday, DateTimeFormatter.ISO_LOCAL_DATE);
-            String[] remindTimes = birthday.getRemindTime().split(",");
-
             for (String remindTime : remindTimes) {
+                if (remindTime.isEmpty()) {
+                    return;
+                }
                 int code = RemindTime.valueOf(remindTime).getCode();
                 LocalDate remindDate = givenDate.minusDays(code);
                 String remindDateStr = formatDate(remindDate);

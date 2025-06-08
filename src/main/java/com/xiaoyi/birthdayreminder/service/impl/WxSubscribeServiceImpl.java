@@ -48,27 +48,33 @@ public class WxSubscribeServiceImpl implements WxSubscribeService {
         map.put("template_id", weChatProperties.getTemplateId());
         map.put("page", "pages/index/index");
 
-        HashMap<String, Object> data = new HashMap<>();
+        try {
+            HashMap<String, Object> data = new HashMap<>();
 
-        String name = birthday.getName().length() > 3 ? birthday.getName().substring(0, 3) : birthday.getName();
-        data.put("name1", formatParam(name));
+            String name = birthday.getName().length() > 3 ? birthday.getName().substring(0, 3) : birthday.getName();
+            data.put("name1", formatParam(name));
 
-        String solarBirthdayInThisYear = birthdayInThisYear(birthday.getBirthday());
-        if (birthday.getBirthdayType().equals(BirthdayType.LUNAR)) {
-            solarBirthdayInThisYear = CommonUtil.lunar2Solar(solarBirthdayInThisYear);
+            String solarBirthdayInThisYear = birthdayInThisYear(birthday.getBirthday());
+            if (birthday.getBirthdayType().equals(BirthdayType.LUNAR)) {
+                solarBirthdayInThisYear = CommonUtil.lunar2Solar(solarBirthdayInThisYear);
+            }
+
+            long daysDiff = ChronoUnit.DAYS.between(parseDate(solarBirthdayInThisYear), LocalDate.now());
+            String dayDiffStr = daysDiff <= 0 ? "今天" : (daysDiff + "天后");
+            data.put("thing2", formatParam(dayDiffStr));
+            String dateStr = birthday.getBirthdayType().equals(BirthdayType.LUNAR) ?
+                    CommonUtil.lunarBirthdayToText(birthday.getBirthday()) :
+                    CommonUtil.getMonthDay(birthday.getBirthday());
+            data.put("thing6", formatParam(dateStr));
+            data.put("thing5", formatParam("别忘了送上生日祝福哦"));
+            map.put("data", data);
+
+            String jsonObject = JSON.toJSONString(map);
+            HttpUtil.post(url, jsonObject);
+        } catch (Exception e) {
+            throw new RuntimeException("消息发送失败", e);
         }
 
-        long daysDiff = ChronoUnit.DAYS.between(parseDate(solarBirthdayInThisYear), LocalDate.now());
-        String dayDiffStr = daysDiff <= 0 ? "今天" : (daysDiff + "天后");
-        data.put("thing2", formatParam(dayDiffStr));
-        String dateStr = birthday.getBirthdayType().equals(BirthdayType.LUNAR) ?
-                CommonUtil.lunarBirthdayToText(birthday.getBirthday()) : CommonUtil.getMonthDay(birthday.getBirthday());
-        data.put("thing6", formatParam(dateStr));
-        data.put("thing5", formatParam("别忘了送上生日祝福哦"));
-        map.put("data", data);
-
-        String jsonObject = JSON.toJSONString(map);
-        HttpUtil.post(url, jsonObject);
     }
 }
 
