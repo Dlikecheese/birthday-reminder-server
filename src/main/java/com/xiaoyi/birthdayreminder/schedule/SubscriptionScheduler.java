@@ -19,13 +19,15 @@ public class SubscriptionScheduler {
     @Autowired
     WxSubscribeService wxSubscribeService;
 
-    @Scheduled(cron = "0 30 11 * * ? ") // 每天上午9点执行
+    @Scheduled(cron = "0 38 21 * * ?") // 每天上午9点执行
     public void sendDailySubscription() {
         // 1. 查询需要发送订阅消息的用户列表
         List<Birthday> allBirthdayList = birthdayService.allList();
         List<Birthday> remindBirthdayList = CommonUtil.getReminderDate(allBirthdayList);
 
-        String token = wxSubscribeService.getToken();
+        String token =
+                "93_cdwn1LxZiTxKGlWP0YChjDm197hCGdu2syLAt0TkMNLrLNSl7dIknIMcYxiTRmhYWaduELI8B2_xsxO9ticsIhja_sm" +
+                        "-_zmRWxwfHMzzFyqEybg6HYXZyBjk2Z4YQNcAHASKH";
 
         for (Birthday birthday : remindBirthdayList) {
             wxSubscribeService.sendMsg(token, birthday);
